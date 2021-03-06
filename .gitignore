@@ -21,3 +21,5 @@ cabal.project.local
 cabal.project.local~
 .HTF/
 .ghc.environment.*
+
+bkg-2-cnf

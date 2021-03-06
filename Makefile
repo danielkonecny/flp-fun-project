@@ -25,13 +25,13 @@ test: $(PROJECT)
 	./$(PROJECT)
 
 info: $(PROJECT)
-	./$(PROJECT) -i
+	./$(PROJECT) -i "test/test1.in"
 
 one: $(PROJECT)
-	./$(PROJECT) -1
+	./$(PROJECT) -1 "test/test1.in"
 
 two: $(PROJECT)
-	./$(PROJECT) -2
+	./$(PROJECT) -2 "test/test1.in"
 
 help: $(PROJECT)
 	./$(PROJECT) -h
