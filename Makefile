@@ -42,9 +42,6 @@ version: $(PROJECT)
 clean:
 	rm $(PROJECT)
 
-clear:
-	rm $(PROJECT)
-
 pack:
 	zip -r flp-fun-$(LOGIN).zip $(SRC) $(DOC) $(TEST) Makefile
 
@@ -52,7 +49,7 @@ zip:
 	zip -r flp-fun-$(LOGIN).zip $(SRC) $(DOC) $(TEST) Makefile
 
 # Binary
-$(PROJECT): $(SRC)Main.$(SUFFIX)
+$(PROJECT): $(SRC)Main.$(SUFFIX) $(SRC)Params.$(SUFFIX) $(SRC)Grammar.$(SUFFIX)
 	$(GHC) -o $@ $^
 
 ## Binary

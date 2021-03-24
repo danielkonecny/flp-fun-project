@@ -1,43 +1,46 @@
 {-
  Project: 		BKG-2-CNF
  Decription:	Convert Context-free Grammar to Chomsky Normal Form.
- File: 			Makefile
- Version: 		0.1
+ File: 			Main.hs
+ Version: 		1.0
  Course: 		FLP - Functional and Logic Programming
  Organisation:	Brno University of Technology - Faculty of Information Technology
  Author: 		Daniel Konecny (xkonec75)
- Date: 			24. 02. 2021
+ Date: 			24. 03. 2021
 -}
 
+
 import System.Environment
-import System.IO
-import Data.List
+
+import Params
 
 
-dispatch :: [(String, [String] -> IO ())]
-dispatch =  [
-                ("-i", info),
-                ("-1", one),
-                ("-2", two)
-            ]
+{-
+type Nonterminal = Char
+type Terminal = Char
+data SymbolType = Nonterminal | Terminal deriving (Show, Eq, Enum)
+data Symbol = Symbol {
+        symbol :: Char,
+        symbolType :: SymbolType
+    }   
+-}
 
 
+{-
+data Symbol = Nonterminal Char | Terminal Char deriving (Show, Eq)
 
-info :: [String] -> IO ()
-info [fileName] = do 
-    handle <- openFile fileName ReadMode
-    contents <- hGetContents handle
-    putStr contents
-    hClose handle
+data Rule = Rule {
+        left :: Symbol,
+        right :: [Symbol]
+    }
 
-
-one :: [String] -> IO ()
-one [fileName] = putStrLn $ "One from file " ++ fileName 
-
-
-
-two :: [String] -> IO ()
-two [fileName] = putStrLn $ "Two from file " ++ fileName
+data Grammar = Grammar {
+        nonterminals :: [Symbol],
+        terminals :: [Symbol],
+        start :: Symbol,
+        rules :: [Rule]
+    }
+-}
 
 
 main = do
