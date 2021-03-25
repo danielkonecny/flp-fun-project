@@ -57,8 +57,7 @@ one [fileName] = do
     handle <- openFile fileName ReadMode
     grammarFile <- hGetContents handle
     let grammar = loadGrammar grammarFile
-    printGrammar grammar
-    reduceGrammar grammar
+    printGrammar (reduceGrammar grammar)
     hClose handle
 
 
