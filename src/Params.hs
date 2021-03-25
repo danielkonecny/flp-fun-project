@@ -19,6 +19,8 @@ import System.Environment
 import System.IO
 
 import Grammar
+import Reduction
+import Conversion
 
 
 dispatch :: [(String, [String] -> IO ())]
@@ -56,6 +58,7 @@ one [fileName] = do
     grammarFile <- hGetContents handle
     let grammar = loadGrammar grammarFile
     printGrammar grammar
+    reduceGrammar grammar
     hClose handle
 
 
@@ -70,6 +73,6 @@ two [fileName] = do
     handle <- openFile fileName ReadMode
     grammarFile <- hGetContents handle
     let grammar = loadGrammar grammarFile
-    printGrammar grammar
+    printGrammar (convertGrammar grammar)
     hClose handle
 

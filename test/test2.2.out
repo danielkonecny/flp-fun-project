@@ -1,0 +1,8 @@
+A,B,C,<aB>,a'
+a,b
+A
+A->B<aB>
+<aB>->a'B
+A->a'B
+a'->a
+B->b

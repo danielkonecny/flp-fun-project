@@ -1,0 +1,11 @@
+A,B,C,<Ab>,<bA>,b',a'
+a,b
+A
+A->a'B
+B->A<Ab>
+<Ab>->Ab'
+a'->a
+b'->b
+B->Ab'
+C->A<bA>
+<bA>->b'A

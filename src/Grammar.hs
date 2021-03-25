@@ -11,6 +11,14 @@
 
 
 module Grammar (
+    Rule (Rule),
+    left,
+    right,
+    Grammar (Grammar),
+    nonterminals,
+    terminals,
+    start,
+    rules,
     loadGrammar,
     printGrammar
 ) where
