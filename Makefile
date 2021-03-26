@@ -1,11 +1,11 @@
 # Project: 		BKG-2-CNF
 # Decription:	Convert Context-free Grammar to Chomsky Normal Form.
 # File: 		Makefile
-# Version: 		0.2
+# Version: 		1.0
 # Course: 		FLP - Functional and Logic Programming
 # Organisation:	Brno University of Technology - Faculty of Information Technology
 # Author: 		Daniel Konecny (xkonec75)
-# Date: 		24. 02. 2021
+# Date: 		26. 03. 2021
 
 # Macros
 GHC = ghc
@@ -28,10 +28,10 @@ info: $(PROJECT)
 	./$(PROJECT) -i "test/test1.in"
 
 one: $(PROJECT)
-	./$(PROJECT) -1 "test/test4.in"
+	./$(PROJECT) -1 "test/test1.in"
 
 two: $(PROJECT)
-	./$(PROJECT) -2 "test/test5.in"
+	./$(PROJECT) -2 "test/test1.in"
 
 help: $(PROJECT)
 	./$(PROJECT) -h

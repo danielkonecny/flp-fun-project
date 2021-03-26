@@ -33,11 +33,9 @@ dispatch = [
 
 info :: [String] -> IO ()
 info [] = do
-    putStrLn "INFO - Stdin"
     grammarFile <- getContents
     printGrammar (loadGrammar grammarFile)
 info [fileName] = do
-    putStrLn "INFO - File"
     handle <- openFile fileName ReadMode
     grammarFile <- hGetContents handle
     printGrammar (loadGrammar grammarFile)
@@ -46,11 +44,9 @@ info [fileName] = do
 
 one :: [String] -> IO ()
 one [] = do
-    putStrLn "ONE - Stdin"
     grammarFile <- getContents
     printGrammar (reduceGrammar (loadGrammar grammarFile))
 one [fileName] = do
-    putStrLn "ONE - File"
     handle <- openFile fileName ReadMode
     grammarFile <- hGetContents handle
     printGrammar (reduceGrammar (loadGrammar grammarFile))
@@ -59,11 +55,9 @@ one [fileName] = do
 
 two :: [String] -> IO ()
 two [] = do
-    putStrLn "TWO - Stdin"
     grammarFile <- getContents
     printGrammar (convertGrammar (reduceGrammar (loadGrammar grammarFile)))
 two [fileName] = do
-    putStrLn "TWO - File"
     handle <- openFile fileName ReadMode
     grammarFile <- hGetContents handle
     printGrammar (convertGrammar (reduceGrammar (loadGrammar grammarFile)))

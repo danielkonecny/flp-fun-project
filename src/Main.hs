@@ -9,38 +9,9 @@
  Date: 			24. 03. 2021
 -}
 
-
 import System.Environment
 
 import Params
-
-
-{-
-type Nonterminal = Char
-type Terminal = Char
-data SymbolType = Nonterminal | Terminal deriving (Show, Eq, Enum)
-data Symbol = Symbol {
-        symbol :: Char,
-        symbolType :: SymbolType
-    }   
--}
-
-
-{-
-data Symbol = Nonterminal Char | Terminal Char deriving (Show, Eq)
-
-data Rule = Rule {
-        left :: Symbol,
-        right :: [Symbol]
-    }
-
-data Grammar = Grammar {
-        nonterminals :: [Symbol],
-        terminals :: [Symbol],
-        start :: Symbol,
-        rules :: [Rule]
-    }
--}
 
 
 main = do

@@ -6,7 +6,7 @@
  Course:        FLP - Functional and Logic Programming
  Organisation:  Brno University of Technology - Faculty of Information Technology
  Author:        Daniel Konecny (xkonec75)
- Date:          24. 03. 2021
+ Date:          26. 03. 2021
 -}
 
 
@@ -28,45 +28,54 @@ import Data.List
 
 
 data Rule = Rule {
-        left :: Char,
-        right :: [Char]
-    }
+        left :: String,
+        right :: [String]
+    } deriving (Eq)
 
 ruleToString :: Rule -> String
-ruleToString rule = concat [[left rule], "->", right rule, "\n"]
+ruleToString rule = left rule ++ "->" ++ ((right rule) >>= id) ++ "\n"
 
 rulesToString :: [Rule] -> String
 rulesToString [] = ""
-rulesToString rules = concat [ruleToString (head rules), rulesToString (tail rules)]
+rulesToString rules = ruleToString (head rules) ++ rulesToString (tail rules)
 
 
 data Grammar = Grammar {
-        nonterminals :: [Char],
-        terminals :: [Char],
-        start :: Char,
+        nonterminals :: [String],
+        terminals :: [String],
+        start :: String,
         rules :: [Rule]
     }
 
 instance Show Grammar where
-    show (Grammar nonterminals terminals start rules) = id (
-            intersperse ',' nonterminals ++ "\n" ++
-            intersperse ',' terminals ++ "\n" ++
-            [start] ++ "\n" ++
+    show (Grammar nonterminals terminals start rules) = id ( 
+            intercalate "," nonterminals ++ "\n" ++
+            intercalate "," terminals ++ "\n" ++
+            start ++ "\n" ++
             rulesToString rules
         )
 
 
-getSymbols :: String -> [Char]
-getSymbols xs = [x | x <- xs, not (x `elem` ",")]
+getSymbols :: String -> [String]
+getSymbols [] = [""]
+getSymbols (c:cs)
+    | c == ','  = "" : rest
+    | otherwise = (c : head rest) : tail rest
+        where rest = getSymbols cs
 
 
-getStart :: String -> Char
-getStart line = head line
+getStart :: String -> String
+getStart line = line
+
+
+getRight :: [Char] -> [String]
+getRight [] = []
+getRight (x:xs) = [[x]] ++ getRight xs
 
 
 getRules :: [String] -> [Rule]
 getRules [] = error "no rules"
-getRules [x] = [Rule {left = head x, right = drop 3 x}]
+getRules [x] = [Rule {left = [head x], right = (getRight (drop 3 x))}]
 getRules (x:xs) = getRules [x] ++ getRules xs
 
 

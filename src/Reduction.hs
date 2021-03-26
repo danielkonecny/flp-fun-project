@@ -24,7 +24,7 @@ import Grammar
 @param      Newly obtained nonterminals for N_A
 @return     Newly obtained nonterminals for N_A
 -}
-constructNonterminalSet :: [Rule] -> [Char] -> [Char] -> [Char] -> [Char]
+constructNonterminalSet :: [Rule] -> [String] -> [String] -> [String] -> [String]
 constructNonterminalSet [] _ _ _ = []
 constructNonterminalSet (x:xs) nonterminals easyNonterminals newEasy =
     if left x `elem` easyNonterminals
@@ -42,23 +42,22 @@ constructNonterminalSet (x:xs) nonterminals easyNonterminals newEasy =
 @param      New computed nonterminals to be added to set N_A
 @return     Finished set N_A
 -}
-getEasyNonterminals :: Grammar -> [Char] -> [Char] -> [Char]
+getEasyNonterminals :: Grammar -> [String] -> [String] -> [String]
 getEasyNonterminals grammar easyNonterminals [] = []
 getEasyNonterminals grammar easyNonterminals newEasy =
-    concat [newEasy,
-            getEasyNonterminals
-                grammar
-                (concat [easyNonterminals, newEasy])
-                (constructNonterminalSet
-                    (rules grammar)
-                    (nonterminals grammar)
-                    (concat [easyNonterminals, newEasy])
-                    []
-                )
-            ]
+    newEasy ++
+    getEasyNonterminals
+        grammar
+        (easyNonterminals ++ newEasy)
+        (constructNonterminalSet
+            (rules grammar)
+            (nonterminals grammar)
+            (easyNonterminals ++ newEasy)
+            []
+        )
 
 
-newRules :: Grammar -> [Char] -> [Rule] -> [Char] -> [Rule]
+newRules :: Grammar -> [String] -> [Rule] -> [String] -> [Rule]
 newRules _ [] _ _ = []
 newRules grammar nonterminals@(x:xs) [] _ = newRules grammar xs (rules grammar) []
 newRules grammar nonterminals@(x:xs) rules@(y:ys) [] =
