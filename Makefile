@@ -31,7 +31,7 @@ one: $(PROJECT)
 	./$(PROJECT) -1 "test/test4.in"
 
 two: $(PROJECT)
-	./$(PROJECT) -2 "test/test1.in"
+	./$(PROJECT) -2 "test/test5.in"
 
 help: $(PROJECT)
 	./$(PROJECT) -h

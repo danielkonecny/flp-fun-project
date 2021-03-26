@@ -2,11 +2,11 @@
  Project:       BKG-2-CNF
  Decription:    Convert Context-free Grammar to Chomsky Normal Form.
  File:          Params.hs
- Version:       0.6
+ Version:       1.0
  Course:        FLP - Functional and Logic Programming
  Organisation:  Brno University of Technology - Faculty of Information Technology
  Author:        Daniel Konecny (xkonec75)
- Date:          24. 03. 2021
+ Date:          26. 03. 2021
 -}
 
 
@@ -35,14 +35,12 @@ info :: [String] -> IO ()
 info [] = do
     putStrLn "INFO - Stdin"
     grammarFile <- getContents
-    let grammar = loadGrammar grammarFile
-    printGrammar grammar
+    printGrammar (loadGrammar grammarFile)
 info [fileName] = do
     putStrLn "INFO - File"
     handle <- openFile fileName ReadMode
     grammarFile <- hGetContents handle
-    let grammar = loadGrammar grammarFile
-    printGrammar grammar
+    printGrammar (loadGrammar grammarFile)
     hClose handle
 
 
@@ -50,14 +48,12 @@ one :: [String] -> IO ()
 one [] = do
     putStrLn "ONE - Stdin"
     grammarFile <- getContents
-    let grammar = loadGrammar grammarFile
-    printGrammar grammar
+    printGrammar (reduceGrammar (loadGrammar grammarFile))
 one [fileName] = do
     putStrLn "ONE - File"
     handle <- openFile fileName ReadMode
     grammarFile <- hGetContents handle
-    let grammar = loadGrammar grammarFile
-    printGrammar (reduceGrammar grammar)
+    printGrammar (reduceGrammar (loadGrammar grammarFile))
     hClose handle
 
 
@@ -65,13 +61,11 @@ two :: [String] -> IO ()
 two [] = do
     putStrLn "TWO - Stdin"
     grammarFile <- getContents
-    let grammar = loadGrammar grammarFile
-    printGrammar grammar
+    printGrammar (convertGrammar (reduceGrammar (loadGrammar grammarFile)))
 two [fileName] = do
     putStrLn "TWO - File"
     handle <- openFile fileName ReadMode
     grammarFile <- hGetContents handle
-    let grammar = loadGrammar grammarFile
-    printGrammar (convertGrammar grammar)
+    printGrammar (convertGrammar (reduceGrammar (loadGrammar grammarFile)))
     hClose handle
 

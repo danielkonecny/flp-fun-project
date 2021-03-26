@@ -6,7 +6,7 @@
  Course:        FLP - Functional and Logic Programming
  Organisation:  Brno University of Technology - Faculty of Information Technology
  Author:        Daniel Konecny (xkonec75)
- Date:          24. 03. 2021
+ Date:          26. 03. 2021
 -}
 
 module Conversion (
@@ -17,5 +17,13 @@ module Conversion (
 import Grammar
 
 
+
+
+
 convertGrammar :: Grammar -> Grammar
-convertGrammar grammar = grammar
+convertGrammar grammar = Grammar {
+            nonterminals = (nonterminals grammar),
+            terminals = (terminals grammar),
+            start = (start grammar),
+            rules = (rules grammar)
+        }
