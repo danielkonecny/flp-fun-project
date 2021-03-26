@@ -1,0 +1,2 @@
+Program was tested on provided default test and on one additional test
+that was needed for testing the task -1. The results were checked manually.

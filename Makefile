@@ -18,9 +18,6 @@ TEST = test/
 
 all: $(PROJECT)
 
-run: $(PROJECT)
-	./$(PROJECT)
-
 test: $(PROJECT)
 	./$(PROJECT)
 
@@ -32,12 +29,6 @@ one: $(PROJECT)
 
 two: $(PROJECT)
 	./$(PROJECT) -2 "test/test1.in"
-
-help: $(PROJECT)
-	./$(PROJECT) -h
-
-version: $(PROJECT)
-	./$(PROJECT) -v
 
 clean:
 	rm $(PROJECT) $(SRC)*.o $(SRC)*.hi
@@ -51,20 +42,3 @@ zip:
 # Binary
 $(PROJECT): $(SRC)Main.$(SUFFIX) $(SRC)Params.$(SUFFIX) $(SRC)Grammar.$(SUFFIX) $(SRC)Reduction.$(SUFFIX) $(SRC)Conversion.$(SUFFIX)
 	$(GHC) -o $@ $^
-
-# Binary
-#$(PROJECT): $(SRC)Main.o $(SRC)Params.o $(SRC)Grammar.o #$(SRC)Reduction.o
-#	$(GHC) $^ -o $@
-
-# Object files
-#$(SRC)Params.o: $(SRC)Params.$(SUFFIX)
-#	$(GHC) -c $< -o $@
-
-#$(SRC)Main.o: $(SRC)Main.$(SUFFIX)
-#	$(GHC) -c $< -o $@
-
-#$(SRC)Grammar.o: $(SRC)Grammar.$(SUFFIX)
-#	$(GHC) -c $< -o $@
-
-#Reduction.o: $(SRC)Reduction.$(SUFFIX)
-#	$(GHC) $(FLAGS) -c $< -o $@

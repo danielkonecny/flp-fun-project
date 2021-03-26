@@ -1,6 +1,9 @@
-A,B,C
-a,b
-A
-A->BaB
-A->aB
-B->b
+E,T,F
+i,+,-,(,)
+E
+E->E-T
+E->T
+T->T+F
+T->F
+F->(E)
+F->i

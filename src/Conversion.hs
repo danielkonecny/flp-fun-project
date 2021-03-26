@@ -19,6 +19,7 @@ import Data.List
 import Grammar
 
 
+-- Compute rules according to stage 1 of the provided algorithm.
 keepOnlyTerminals :: [Rule] -> [String] -> [Rule]
 keepOnlyTerminals [] _ = []
 keepOnlyTerminals (x:xs) terminals =
@@ -27,6 +28,7 @@ keepOnlyTerminals (x:xs) terminals =
         else keepOnlyTerminals xs terminals
 
 
+-- Compute rules according to stage 2 of the provided algorithm.
 keepOnlyTwoNonterminals :: [Rule] -> [String] -> [Rule]
 keepOnlyTwoNonterminals [] _ = []
 keepOnlyTwoNonterminals (x:xs) nonterminals =
@@ -36,7 +38,6 @@ keepOnlyTwoNonterminals (x:xs) nonterminals =
         then x : keepOnlyTwoNonterminals xs nonterminals
         else keepOnlyTwoNonterminals xs nonterminals
 
-
 renameTerminal :: [String] -> [String] -> [String]
 renameTerminal [] _ = []
 renameTerminal right@(x:xs) terminals =
@@ -45,19 +46,9 @@ renameTerminal right@(x:xs) terminals =
         else x : renameTerminal xs terminals
 
 
-renameTwoTerminals :: [Rule] -> [String] -> [Rule]
-renameTwoTerminals [] _ = []
-renameTwoTerminals rules@(x:xs) terminals = 
-    if length (right x) == 2
-        && (((right x) !! 0) `elem` terminals || ((right x) !! 1) `elem` terminals)
-        then Rule {left = (left x), right = renameTerminal (right x) terminals} :
-            renameTwoTerminals xs terminals
-        else renameTwoTerminals xs terminals
-
-
+-- Compute rules according to stage 3 of the provided algorithm.
 transferSecondRight :: [String] -> String
 transferSecondRight right = "<" ++ (right >>= id) ++ ">"
-
 
 divideRule :: String -> [String] -> [String] -> [Rule]
 divideRule left right terminals =
@@ -69,7 +60,6 @@ divideRule left right terminals =
             divideRule (transferSecondRight (tail right)) (tail right) terminals
         else [Rule {left = left, right = renameTerminal right terminals}]
 
-
 divideLongRules :: [Rule] -> [String] -> [String] -> [Rule]
 divideLongRules [] _ _ = []
 divideLongRules rules@(x:xs) nonterminals terminals =
@@ -78,6 +68,28 @@ divideLongRules rules@(x:xs) nonterminals terminals =
         else divideLongRules xs nonterminals terminals
 
 
+-- Compute rules according to stage 4 of the provided algorithm.
+renameTwoTerminals :: [Rule] -> [String] -> [Rule]
+renameTwoTerminals [] _ = []
+renameTwoTerminals rules@(x:xs) terminals = 
+    if length (right x) == 2
+        && (((right x) !! 0) `elem` terminals || ((right x) !! 1) `elem` terminals)
+        then Rule {left = (left x), right = renameTerminal (right x) terminals} :
+            renameTwoTerminals xs terminals
+        else renameTwoTerminals xs terminals
+
+
+-- Process the stages 1 through 4 of the algorithm 4.7.
+getNewRules :: Grammar -> [Rule]
+getNewRules grammar = nub (
+        keepOnlyTerminals (rules grammar) (terminals grammar) ++
+        keepOnlyTwoNonterminals (rules grammar) (nonterminals grammar) ++
+        divideLongRules (rules grammar) (nonterminals grammar) (terminals grammar) ++
+        renameTwoTerminals (rules grammar) (terminals grammar)
+    )
+
+
+-- Add all newly created nonterminals to the set of nonterminals.
 getNewTerminalRule :: [String] -> [String] -> [Rule]
 getNewTerminalRule right terminals =
     if '\'' `elem` (right !! 0)
@@ -91,22 +103,12 @@ getNewTerminalRule right terminals =
             then [Rule {left = right !! 1, right = [[(right !! 1) !! 0]]}]
             else []
 
-
-getNewRules :: Grammar -> [Rule]
-getNewRules grammar =
-    keepOnlyTerminals (rules grammar) (terminals grammar) ++
-    keepOnlyTwoNonterminals (rules grammar) (nonterminals grammar) ++
-    divideLongRules (rules grammar) (nonterminals grammar) (terminals grammar) ++
-    renameTwoTerminals (rules grammar) (terminals grammar)
-
-
 addRenamedTerminals :: [Rule] -> [String] -> [Rule]
 addRenamedTerminals [] _ = []
 addRenamedTerminals rules@(x:xs) terminals =
     if length (right x) == 2
         then getNewTerminalRule (right x) terminals ++ addRenamedTerminals xs terminals
         else addRenamedTerminals xs terminals
-
 
 addNonTerminals :: [Rule] -> [String]  -> [String]
 addNonTerminals [] _ = []
@@ -122,6 +124,7 @@ addNonTerminals rules@(x:xs) nonterminals =
         else addNonTerminals xs nonterminals
 
 
+-- Process the conversion.
 convertGrammar :: Grammar -> Grammar
 convertGrammar grammar =
     Grammar {

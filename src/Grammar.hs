@@ -26,7 +26,7 @@ module Grammar (
 
 import Data.List
 
-
+-- Data structure representing a rule in a grammar.
 data Rule = Rule {
         left :: String,
         right :: [String]
@@ -39,7 +39,7 @@ rulesToString :: [Rule] -> String
 rulesToString [] = ""
 rulesToString rules = ruleToString (head rules) ++ rulesToString (tail rules)
 
-
+-- Data strcture representing a (context-free) grammar.
 data Grammar = Grammar {
         nonterminals :: [String],
         terminals :: [String],
